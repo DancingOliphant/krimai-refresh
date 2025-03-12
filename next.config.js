@@ -1,11 +1,19 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   webpack: (config, { isServer }) => {
-    config.module.rules.push({
-      test: /\.css$/,
-      use: ['style-loader', 'css-loader', 'postcss-loader']
-    });
+    config.resolve.fallback = { fs: false, net: false, tls: false };
     return config;
+  },
+  experimental: {
+    // Try enabling Turbo mode explicitly
+    turbo: {
+      rules: {
+        // configure turbo to handle CSS
+        ".css$": {
+          "postcss-loader": {}
+        }
+      }
+    }
   }
 };
 
